@@ -5,26 +5,28 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Layout />,
-    },
-    {
-        path: '/about',
-        element: <About />,
-    },
-    {
-        path: '/home',
-        element: <Home />,
-    },
-    {
-        path: '/newsletter',
-        element: <Newsletter />,
-    },
-    {
-        path: '/recipe',
-        element: <Recipe />,
-    },
-    {
-        path: '/error',
-        element: <Error />,
+        children: [
+            {
+                index: true,
+                element: <Home />,
+            },
+            {
+                path: 'about',
+                element: <About />,
+            },
+            {
+                path: 'newsletter',
+                element: <Newsletter />,
+            },
+            {
+                path: 'recipe',
+                element: <Recipe />,
+            },
+            {
+                path: 'error',
+                element: <Error />,
+            },
+        ],
     },
 ]);
 
