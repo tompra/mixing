@@ -5,6 +5,7 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Layout />,
+        errorElement: <Error />,
         children: [
             {
                 index: true,
@@ -21,10 +22,6 @@ const router = createBrowserRouter([
             {
                 path: 'recipe',
                 element: <Recipe />,
-            },
-            {
-                path: 'error',
-                element: <Error />,
             },
         ],
     },
