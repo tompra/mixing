@@ -10,14 +10,17 @@ const Error: React.FC = (): JSX.Element => {
         return (
             <Wrapper>
                 <div>
-                    <h1>Error 404</h1>
-                    <p>There was an error in the url</p>
+                    <h1>Oh! We have a 404</h1>
+                    <p>
+                        It seems that we cannot find the page you are looking
+                        for
+                    </p>
                     <Link to='/'>Back home</Link>
                 </div>
             </Wrapper>
         );
     }
-    return <h1>Error</h1>;
+    return <h1>Something went wrong...</h1>;
 };
 
 const Wrapper = styled.div`
