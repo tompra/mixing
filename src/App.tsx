@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { About, Layout, Home, Error, Newsletter, Recipe } from './pages/index';
+import { loader as homeLoader } from './pages/Home';
+import SinglePageError from './pages/SinglePageError';
 
 const router = createBrowserRouter([
     {
@@ -9,7 +11,9 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
+                loader: homeLoader,
                 element: <Home />,
+                errorElement: <SinglePageError />,
             },
             {
                 path: 'about',
