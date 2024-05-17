@@ -16,10 +16,6 @@ export const loader = async () => {
 };
 const Home: React.FC = (): JSX.Element => {
     const data = useLoaderData() as { recipes?: [] };
-    return (
-        <>
-            <RecipeList recipes={data.recipes} />
-        </>
-    );
+    return <RecipeList recipes={data.recipes} />;
 };
 export default Home;
