@@ -1,13 +1,19 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import styled from 'styled-components';
 
 const Layout: React.FC = (): JSX.Element => {
+    const navigation = useNavigation();
+    const isPageLoading = navigation.state === 'loading';
     return (
         <>
             <Navbar />
             <Wrapper>
-                <Outlet />
+                {isPageLoading ? (
+                    <div className='loading'>Loading</div>
+                ) : (
+                    <Outlet />
+                )}
             </Wrapper>
         </>
     );
