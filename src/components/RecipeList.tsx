@@ -14,7 +14,7 @@ const RecipeList: React.FC<Props> = ({ recipes }): JSX.Element => {
     return (
         <>
             {recipes.map((recipe) => {
-                return <RecipeCard recipe={recipe} />;
+                return <RecipeCard key={recipe.id} recipe={recipe} />;
             })}
         </>
     );
