@@ -1,6 +1,8 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { About, Layout, Home, Error, Newsletter, Recipe } from './pages/index';
 import { loader as homeLoader } from './pages/Home';
+import { loader as recipeLoader } from './pages/Recipe';
+
 import SinglePageError from './pages/SinglePageError';
 
 const router = createBrowserRouter([
@@ -11,8 +13,8 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                loader: homeLoader,
                 element: <Home />,
+                loader: homeLoader,
                 errorElement: <SinglePageError />,
             },
             {
@@ -24,7 +26,9 @@ const router = createBrowserRouter([
                 element: <Newsletter />,
             },
             {
-                path: 'recipe',
+                path: 'recipe/:id',
+                errorElement: <SinglePageError />,
+                loader: recipeLoader,
                 element: <Recipe />,
             },
         ],
