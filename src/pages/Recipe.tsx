@@ -1,25 +1,12 @@
 import { useLoaderData, Link } from 'react-router-dom';
-import axios from 'axios';
-
-const API_KEY = import.meta.env.VITE_ACCESS_KEY;
-const recipeInstructionsURL = `https://api.spoonacular.com/recipes/`;
-
-export const loader = async ({ params }) => {
-    const { id } = params;
-    const instructionURL = `${recipeInstructionsURL}/${id}/analyzedInstructions?apiKey=${API_KEY}`;
-
-    try {
-        const { data } = await axios.get(instructionURL);
-        return { id, data };
-    } catch (error) {
-        throw new Error(`Error fetching recipe ${error}`);
-    }
-};
 
 const Recipe: React.FC = (): JSX.Element => {
-    const { id, data } = useLoaderData();
+    const { data, id } = useLoaderData();
 
-    const instructions = data[0].steps;
+    console.log('data2', data);
+    // const instructions = data[0].steps;
+
+    const instructions = data.analyzedInstructions[0].steps;
 
     const ingredientSet = new Set();
     const equipmentSet = new Set();
@@ -42,12 +29,12 @@ const Recipe: React.FC = (): JSX.Element => {
     const totalInstruction = Array.from(instructionSet);
 
     return (
-        <div>
+        <div key={id}>
             <h2>Ingredient</h2>
 
             {totalIngredient.map((ingridient, index) => {
                 return (
-                    <p>
+                    <p key={index}>
                         <span>{index + 1}. </span>
                         {ingridient}
                     </p>
@@ -55,17 +42,32 @@ const Recipe: React.FC = (): JSX.Element => {
             })}
             <h2>Equipment</h2>
 
-            {totalEquipment.map((equipment) => {
-                return <p>{equipment}</p>;
+            {totalEquipment.map((equipment, index) => {
+                return <p key={index}>{equipment}</p>;
             })}
+
             <h2>Instructions</h2>
             {totalInstruction.map((instruction, index) => {
                 return (
-                    <p>
+                    <p key={index}>
                         <span>{index + 1}.</span> {instruction}
                     </p>
                 );
             })}
+
+            <h2>Servings</h2>
+            <p>{data.servings}</p>
+
+            <h2>Diets</h2>
+            {data.diets && data.diets.length > 0 ? (
+                data.diets.map((diet, index) => <p key={index}>{diet}</p>)
+            ) : (
+                <p>No diets available</p>
+            )}
+
+            <h2>Ready in ...</h2>
+            <p>{data.readyInMinutes}min</p>
+
             <Link to={'/'}>Back to home</Link>
         </div>
     );
