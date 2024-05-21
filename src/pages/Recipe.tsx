@@ -1,9 +1,11 @@
 import { useLoaderData, Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const Recipe: React.FC = (): JSX.Element => {
     const { data, id } = useLoaderData();
+    const [metricOption, setMetricOption] = useState<boolean>(false);
 
-    console.log('data2', data);
+    console.log('datas', data);
     // const instructions = data[0].steps;
 
     const instructions = data.analyzedInstructions[0].steps;
@@ -14,8 +16,8 @@ const Recipe: React.FC = (): JSX.Element => {
 
     instructions.forEach((instruction) => {
         instructionSet.add(JSON.stringify(instruction.step));
-        instruction.ingredients.forEach((ingridient) => {
-            ingredientSet.add(ingridient.name);
+        instruction.ingredients.forEach((ingredient) => {
+            ingredientSet.add(ingredient.name);
         });
         instruction.equipment.forEach((equipment) => {
             equipmentSet.add(equipment.name);
@@ -28,15 +30,42 @@ const Recipe: React.FC = (): JSX.Element => {
 
     const totalInstruction = Array.from(instructionSet);
 
+    const {
+        title,
+        image,
+        readyInMinutes,
+        servings,
+        extendedIngredients,
+        nutrition,
+    } = data;
+
     return (
         <div key={id}>
+            <h1>{title}</h1>
+            <img src={image} alt={title} />
+
+            <button
+                onClick={() => {
+                    setMetricOption(!metricOption);
+                }}
+            >
+                {metricOption ? 'metric' : 'us'}
+            </button>
+
             <h2>Ingredient</h2>
 
-            {totalIngredient.map((ingridient, index) => {
+            {extendedIngredients.map((ingredient, index) => {
+                const { id, originalName, measures } = ingredient;
+                const { metric, us } = measures;
+                const { amount: metricAmount, unitShort: metricUnit } = metric;
+                const { amount: usAmount, unitShort: usUnit } = us;
                 return (
-                    <p key={index}>
+                    <p key={id}>
                         <span>{index + 1}. </span>
-                        {ingridient}
+                        {originalName} -{' '}
+                        {metricOption
+                            ? `${metricAmount}${metricUnit}`
+                            : `${usAmount}${usUnit}`}
                     </p>
                 );
             })}
@@ -66,7 +95,34 @@ const Recipe: React.FC = (): JSX.Element => {
             )}
 
             <h2>Ready in ...</h2>
-            <p>{data.readyInMinutes}min</p>
+            <p>{readyInMinutes}min</p>
+
+            <h3>Servings</h3>
+            <p>{servings}</p>
+
+            <h3>Nutrition</h3>
+            <p>
+                Protein:{' '}
+                <span>{nutrition.caloricBreakdown.percentProtein}%</span>
+            </p>
+            <p>
+                Fat: <span>{nutrition.caloricBreakdown.percentFat}%</span>
+            </p>
+            <p>
+                Carbs: <span>{nutrition.caloricBreakdown.percentCarbs}%</span>
+            </p>
+
+            <h3>Nutrients</h3>
+
+            {nutrition.nutrients.map((nutrient, index) => {
+                const { name, amount, unit } = nutrient;
+                return (
+                    <p>
+                        {name}: {amount}
+                        {unit}
+                    </p>
+                );
+            })}
 
             <Link to={'/'}>Back to home</Link>
         </div>
