@@ -1,8 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { About, Layout, Home, Error, Newsletter, Recipe } from './pages/index';
-import { loader as homeLoader } from './pages/Home';
-import { loader as recipeLoader } from './pages/Recipe';
-
+import { homeLoader } from './helpers/loaders';
+import { recipeLoader } from './helpers/loaders';
 import SinglePageError from './pages/SinglePageError';
 
 const router = createBrowserRouter([
