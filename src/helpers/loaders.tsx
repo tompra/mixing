@@ -17,7 +17,7 @@ export const homeLoader = async () => {
 export const recipeLoader = async ({ params }) => {
     const { id } = params;
     // const instructionURL = `${recipeInstructionsURL}/${id}/analyzedInstructions?apiKey=${API_KEY}`;
-    const informationURL = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`;
+    const informationURL = `https://api.spoonacular.com/recipes/${id}/information?includeNutrition=true&apiKey=${API_KEY}`;
 
     try {
         // const { data } = await axios.get(instructionURL);
