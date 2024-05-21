@@ -5,8 +5,6 @@ type Props = {
 };
 
 const RecipeList: React.FC<Props> = ({ recipes }): JSX.Element => {
-    console.log('recipes', recipes);
-
     if (!recipes) {
         return <h2>Not matching recipes found...</h2>;
     }
