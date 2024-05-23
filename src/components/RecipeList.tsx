@@ -1,10 +1,7 @@
+import { RecipeListProps } from '../helpers/types';
 import RecipeCard from './RecipeCard';
 
-type Props = {
-    recipes: [];
-};
-
-const RecipeList: React.FC<Props> = ({ recipes }): JSX.Element => {
+const RecipeList: React.FC<RecipeListProps> = ({ recipes }): JSX.Element => {
     if (!recipes) {
         return <h2>Not matching recipes found...</h2>;
     }

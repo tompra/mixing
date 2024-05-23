@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
 import { RecipeCardWrapper } from '../assets/wrappers/RecipeCardWrap';
+import { RecipeCardProps } from '../helpers/types';
 
-type Props = {
-    recipe: { id: number; title: string; image: string };
-};
-
-const RecipeCard: React.FC<Props> = ({ recipe }): JSX.Element => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ recipe }): JSX.Element => {
     const { id, title, image } = recipe;
 
     return (
