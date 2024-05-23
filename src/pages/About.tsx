@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import { AboutWrapper } from '../assets/wrappers/AboutWrap';
 
 const About: React.FC = (): JSX.Element => {
     return (
-        <Wrapper>
+        <AboutWrapper>
             <h1>About us</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -10,15 +10,8 @@ const About: React.FC = (): JSX.Element => {
                 mollitia deserunt quos rerum repellendus nesciunt non neque
                 illum animi quo, reiciendis quidem aperiam.
             </p>
-        </Wrapper>
+        </AboutWrapper>
     );
 };
 
-const Wrapper = styled.div`
-    p {
-        line-height: 2;
-        color: grey;
-        margin-top: 2rem;
-    }
-`;
 export default About;

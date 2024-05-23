@@ -1,6 +1,6 @@
 import { Outlet, useNavigation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import styled from 'styled-components';
+import { LayoutWrapper } from '../assets/wrappers/LayoutWrap';
 
 const Layout: React.FC = (): JSX.Element => {
     const navigation = useNavigation();
@@ -8,21 +8,15 @@ const Layout: React.FC = (): JSX.Element => {
     return (
         <>
             <Navbar />
-            <Wrapper>
+            <LayoutWrapper>
                 {isPageLoading ? (
                     <div className='loading'>Loading</div>
                 ) : (
                     <Outlet />
                 )}
-            </Wrapper>
+            </LayoutWrapper>
         </>
     );
 };
 
-const Wrapper = styled.section`
-    width: 90vw;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 5rem 2rem;
-`;
 export default Layout;

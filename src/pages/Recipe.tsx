@@ -1,12 +1,10 @@
-import { useLoaderData, Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useLoaderData, Link } from 'react-router-dom';
+import { RecipeWrapper } from '../assets/wrappers/RecipeWrap';
 
 const Recipe: React.FC = (): JSX.Element => {
     const { data, id } = useLoaderData();
     const [metricOption, setMetricOption] = useState<boolean>(false);
-
-    console.log('datas', data);
-    // const instructions = data[0].steps;
 
     const instructions = data.analyzedInstructions[0].steps;
 
@@ -24,10 +22,7 @@ const Recipe: React.FC = (): JSX.Element => {
         });
     });
 
-    const totalIngredient = Array.from(ingredientSet);
-
     const totalEquipment = Array.from(equipmentSet);
-
     const totalInstruction = Array.from(instructionSet);
 
     const {
@@ -40,49 +35,75 @@ const Recipe: React.FC = (): JSX.Element => {
     } = data;
 
     return (
-        <div key={id}>
-            <h1>{title}</h1>
-            <img src={image} alt={title} />
+        <RecipeWrapper>
+            <header>
+                <h1>{title}</h1>
+                <img src={image} alt={title} className='img' />
+            </header>
+            <div className='metric-container'>
+                <h2>Measurement options</h2>
+                <div className='metric-options'>
+                    <p>US</p>
+                    <label className='switch'>
+                        <input
+                            type='checkbox'
+                            onChange={() => {
+                                setMetricOption(!metricOption);
+                            }}
+                        />
+                        <span className='slider round'></span>
+                    </label>
+                    <p>Metric</p>
+                </div>
+            </div>
 
-            <button
-                onClick={() => {
-                    setMetricOption(!metricOption);
-                }}
-            >
-                {metricOption ? 'metric' : 'us'}
-            </button>
+            <div className='ingredients-container'>
+                <h2>Ingredient</h2>
 
-            <h2>Ingredient</h2>
+                {extendedIngredients.map((ingredient, index) => {
+                    const { originalName, measures } = ingredient;
+                    const { metric, us } = measures;
+                    const { amount: metricAmount, unitShort: metricUnit } =
+                        metric;
+                    const { amount: usAmount, unitShort: usUnit } = us;
+                    return (
+                        <p key={index} style={{ margin: '0.8rem 0' }}>
+                            <span>
+                                {metricOption
+                                    ? `${metricAmount}${metricUnit}`
+                                    : `${usAmount}${usUnit}`}{' '}
+                            </span>
+                            {'   '}
+                            <span style={{ fontWeight: '800' }}>
+                                {originalName}
+                            </span>
+                        </p>
+                    );
+                })}
+            </div>
 
-            {extendedIngredients.map((ingredient, index) => {
-                const { id, originalName, measures } = ingredient;
-                const { metric, us } = measures;
-                const { amount: metricAmount, unitShort: metricUnit } = metric;
-                const { amount: usAmount, unitShort: usUnit } = us;
-                return (
-                    <p key={id}>
-                        <span>{index + 1}. </span>
-                        {originalName} -{' '}
-                        {metricOption
-                            ? `${metricAmount}${metricUnit}`
-                            : `${usAmount}${usUnit}`}
-                    </p>
-                );
-            })}
-            <h2>Equipment</h2>
+            <div className='equipment-container'>
+                <h2>Equipment</h2>
 
-            {totalEquipment.map((equipment, index) => {
-                return <p key={index}>{equipment}</p>;
-            })}
+                {totalEquipment.map((equipment, index) => {
+                    return <p key={index}>{equipment}</p>;
+                })}
+            </div>
 
-            <h2>Instructions</h2>
-            {totalInstruction.map((instruction, index) => {
-                return (
-                    <p key={index}>
-                        <span>{index + 1}.</span> {instruction}
-                    </p>
-                );
-            })}
+            <div className='instruction-container'>
+                <h2>Instructions</h2>
+                {totalInstruction.map((instruction, index) => {
+                    const cleanedInstruction = instruction
+                        .replace(/"/g, '')
+                        .replace(/\s\s+/g, ' ')
+                        .trim();
+                    return (
+                        <p key={index}>
+                            <span>{index + 1}.</span> {cleanedInstruction}
+                        </p>
+                    );
+                })}
+            </div>
 
             <h2>Servings</h2>
             <p>{data.servings}</p>
@@ -117,7 +138,7 @@ const Recipe: React.FC = (): JSX.Element => {
             {nutrition.nutrients.map((nutrient, index) => {
                 const { name, amount, unit } = nutrient;
                 return (
-                    <p>
+                    <p key={index}>
                         {name}: {amount}
                         {unit}
                     </p>
@@ -125,7 +146,7 @@ const Recipe: React.FC = (): JSX.Element => {
             })}
 
             <Link to={'/'}>Back to home</Link>
-        </div>
+        </RecipeWrapper>
     );
 };
 export default Recipe;
