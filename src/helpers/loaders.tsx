@@ -4,11 +4,13 @@ import { LoaderParams, Recipe } from './types';
 const API_KEY = import.meta.env.VITE_ACCESS_KEY;
 
 const recipeSearchUrl = `https://api.spoonacular.com/recipes/complexSearch?query=`;
-const recipeInstructionsURL = `https://api.spoonacular.com/recipes/`;
+// const recipeInstructionsURL = `https://api.spoonacular.com/recipes/`;
 const apiURL = `&information&apiKey=${API_KEY}`;
 
-export const homeLoader = async () => {
-    const searchTerm = 'pasta';
+export const homeLoader = async ({ request }) => {
+    const url = new URL(request.url);
+
+    const searchTerm = url.searchParams.get('search') || '';
     const response = await axios.get(
         `${recipeSearchUrl}${searchTerm}${apiURL}`
     );
