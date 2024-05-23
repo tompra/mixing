@@ -1,6 +1,7 @@
 import { Outlet, useNavigation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { LayoutWrapper } from '../assets/wrappers/LayoutWrap';
+import Loading from '../components/Loading';
 
 const Layout: React.FC = (): JSX.Element => {
     const navigation = useNavigation();
@@ -9,7 +10,7 @@ const Layout: React.FC = (): JSX.Element => {
         <>
             <Navbar />
             <LayoutWrapper>
-                {isPageLoading ? <div className='loading'></div> : <Outlet />}
+                {isPageLoading ? <Loading /> : <Outlet />}
             </LayoutWrapper>
         </>
     );
