@@ -9,11 +9,7 @@ const Layout: React.FC = (): JSX.Element => {
         <>
             <Navbar />
             <LayoutWrapper>
-                {isPageLoading ? (
-                    <div className='loading'>Loading</div>
-                ) : (
-                    <Outlet />
-                )}
+                {isPageLoading ? <div className='loading'></div> : <Outlet />}
             </LayoutWrapper>
         </>
     );
