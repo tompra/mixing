@@ -1,6 +1,10 @@
 import { useNavigation, Form } from 'react-router-dom';
 import { SearchWrapper } from '../assets/wrappers/SearchWrap';
-const SearchForm: React.FC = (): JSX.Element => {
+import { SearchProps } from '../helpers/types';
+
+const SearchForm: React.FC<SearchProps> = ({ searchTerm }): JSX.Element => {
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state === 'submitting';
     return (
         <SearchWrapper>
             <Form className='form'>
@@ -9,10 +13,10 @@ const SearchForm: React.FC = (): JSX.Element => {
                     name='search'
                     id='search'
                     className='form-input'
-                    defaultValue='meat'
+                    defaultValue={searchTerm}
                 />
-                <button type='submit' className='btn'>
-                    Search
+                <button type='submit' className='btn' disabled={isSubmitting}>
+                    {isSubmitting ? 'searching' : 'search'}
                 </button>
             </Form>
         </SearchWrapper>
