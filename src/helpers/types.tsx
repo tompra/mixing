@@ -51,6 +51,10 @@ export interface Recipe {
     }[];
 }
 
+export type SearchProps = {
+    searchTerm: string;
+};
+
 export type RecipeListProps = {
     recipes: [];
 };
