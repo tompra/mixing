@@ -1,23 +1,27 @@
 import { useState } from 'react';
-import { useLoaderData, Link } from 'react-router-dom';
+import { useLoaderData, Link, Navigate } from 'react-router-dom';
 import { RecipeWrapper } from '../assets/wrappers/RecipeWrap';
+import { Equipment, InstructionStep, RecipeData } from '../helpers/types';
 
 const Recipe: React.FC = (): JSX.Element => {
-    const { data, id } = useLoaderData();
     const [metricOption, setMetricOption] = useState<boolean>(false);
+    const { data } = useLoaderData() as { data: RecipeData };
+
+    if (!data) return <Navigate to='/' />;
+
+    console.log('data', data);
 
     const instructions = data.analyzedInstructions[0].steps;
+    const ingredientSet = new Set<string>();
+    const equipmentSet = new Set<string>();
+    const instructionSet = new Set<string>();
 
-    const ingredientSet = new Set();
-    const equipmentSet = new Set();
-    const instructionSet = new Set();
-
-    instructions.forEach((instruction) => {
+    instructions.forEach((instruction: InstructionStep) => {
         instructionSet.add(JSON.stringify(instruction.step));
         instruction.ingredients.forEach((ingredient) => {
             ingredientSet.add(ingredient.name);
         });
-        instruction.equipment.forEach((equipment) => {
+        instruction.equipment.forEach((equipment: Equipment) => {
             equipmentSet.add(equipment.name);
         });
     });
