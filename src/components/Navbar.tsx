@@ -5,7 +5,9 @@ const Navbar: React.FC = (): JSX.Element => {
     return (
         <NavbarWrapper>
             <div className='nav-center'>
-                <span className='logo'>MixingRecipes</span>
+                <h3 className='logo'>
+                    Mixing<span className='logo-right'>Recipes</span>
+                </h3>
                 <div className='nav-links'>
                     <NavLink to='/' className='nav-link'>
                         Home
