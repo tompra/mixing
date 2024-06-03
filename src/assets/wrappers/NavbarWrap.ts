@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const NavbarWrapper = styled.nav`
-    background-color: lightgrey;
+    background-color: var(--primary-600);
     .nav-center {
         width: 90%;
         max-width: 100%;
@@ -12,29 +12,34 @@ export const NavbarWrapper = styled.nav`
     }
     .logo {
         font-size: clamp(1.5rem, 3vw, 3rem);
-        color: #2222e1;
-        font-weight: 700;
+        color: var(--primary-100);
+        font-weight: 600;
         letter-spacing: 2px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .logo-right {
+        background-color: var(--active);
+        border-radius: 10px;
+        margin-left: 5px;
     }
     .nav-links {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         margin-top: 1rem;
+        font-family: 'Roboto', sans-serif;
     }
     .nav-link {
-        color: navy;
+        color: var(--primary-200);
         padding: 0.5rem 0.5rem 0.5rem 0;
         letter-spacing: 2px;
     }
-    .nav-link {
-        color: navajowhite;
-    }
     .nav-link:hover {
-        color: blue;
+        color: var(--primary-900);
     }
     .active {
-        color: red;
+        color: var(--active);
+        font-weight: 700;
     }
     @media (min-width: 768px) {
         .nav-center {
