@@ -1,4 +1,6 @@
+import { LoadingWrapper } from '../assets/wrappers/LoadingWrap';
+
 const Loading: React.FC = (): JSX.Element => {
-    return <div className='loading'></div>;
+    return <LoadingWrapper></LoadingWrapper>;
 };
 export default Loading;
