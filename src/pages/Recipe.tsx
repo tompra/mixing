@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLoaderData, Link, Navigate } from 'react-router-dom';
 import { RecipeWrapper } from '../assets/wrappers/RecipeWrap';
 import { Equipment, InstructionStep, RecipeData } from '../helpers/types';
@@ -6,6 +6,7 @@ import { Equipment, InstructionStep, RecipeData } from '../helpers/types';
 const Recipe: React.FC = (): JSX.Element => {
     const [metricOption, setMetricOption] = useState<boolean>(false);
     const { data } = useLoaderData() as { data: RecipeData };
+    const instructionRef = useRef<HTMLDivElement>(null);
 
     if (!data) return <Navigate to='/' />;
 
@@ -29,6 +30,10 @@ const Recipe: React.FC = (): JSX.Element => {
     const totalEquipment = Array.from(equipmentSet);
     const totalInstruction = Array.from(instructionSet);
 
+    const scrollToInstructions = () => {
+        instructionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     const {
         title,
         image,
@@ -36,16 +41,27 @@ const Recipe: React.FC = (): JSX.Element => {
         servings,
         extendedIngredients,
         nutrition,
+        preparationMinutes,
     } = data;
 
     return (
         <RecipeWrapper>
             <header>
                 <h1>{title}</h1>
-                <img src={image} alt={title} className='img' />
+                <div className='header--img'>
+                    <img
+                        src={image}
+                        alt={title}
+                        className='header--img__dish'
+                    />
+                </div>
             </header>
             <div className='metric-container'>
-                <h2>Measurement options</h2>
+                <h4>Measurement options</h4>
+                <button className='btn' onClick={scrollToInstructions}>
+                    {' '}
+                    Jump to Recipe
+                </button>
                 <div className='metric-options'>
                     <p>US</p>
                     <label className='switch'>
@@ -61,6 +77,35 @@ const Recipe: React.FC = (): JSX.Element => {
                 </div>
             </div>
 
+            <div className='info-container'>
+                <div className='info-items'>
+                    <h4>Diets</h4>
+                    {data.diets && data.diets.length > 0 ? (
+                        data.diets.map((diet, index) => (
+                            <p key={index}>{diet}</p>
+                        ))
+                    ) : (
+                        <p>No diets available</p>
+                    )}
+                </div>
+                <div className='info-items'>
+                    <h4>Preparation Time</h4>
+                    <p>{preparationMinutes}mins</p>
+                </div>
+                <div className='info-items'>
+                    <h4>Cooking Time</h4>
+                    <p>{readyInMinutes - preparationMinutes}mins</p>
+                </div>
+                <div className='info-items'>
+                    <h4>Total time</h4>
+                    <p>{readyInMinutes}mins</p>
+                </div>
+                <div className='info-items'>
+                    <h4>Servings</h4>
+                    <p>{servings} </p>
+                </div>
+            </div>
+
             <div className='ingredients-container'>
                 <h2>Ingredient</h2>
 
@@ -71,7 +116,7 @@ const Recipe: React.FC = (): JSX.Element => {
                         metric;
                     const { amount: usAmount, unitShort: usUnit } = us;
                     return (
-                        <p key={index} style={{ margin: '0.8rem 0' }}>
+                        <li key={index} className='items-ingredient'>
                             <span>
                                 {metricOption
                                     ? `${metricAmount}${metricUnit}`
@@ -81,75 +126,87 @@ const Recipe: React.FC = (): JSX.Element => {
                             <span style={{ fontWeight: '800' }}>
                                 {originalName}
                             </span>
-                        </p>
+                        </li>
                     );
                 })}
             </div>
 
             <div className='equipment-container'>
                 <h2>Equipment</h2>
-
+                <p>For this delicious recipe where are going to need:</p>
                 {totalEquipment.map((equipment, index) => {
-                    return <p key={index}>{equipment}</p>;
+                    return (
+                        <li key={index} className='items-equipment'>
+                            {equipment}
+                        </li>
+                    );
                 })}
             </div>
 
             <div className='instruction-container'>
-                <h2>Instructions</h2>
+                <h2 ref={instructionRef}>Instructions</h2>
                 {totalInstruction.map((instruction, index) => {
                     const cleanedInstruction = instruction
                         .replace(/"/g, '')
                         .replace(/\s\s+/g, ' ')
                         .trim();
                     return (
-                        <p key={index}>
-                            <span>{index + 1}.</span> {cleanedInstruction}
+                        <p key={index} className='instructions-steps'>
+                            <span>Step {index + 1}.</span> {cleanedInstruction}
                         </p>
                     );
                 })}
             </div>
 
-            <h2>Servings</h2>
-            <p>{data.servings}</p>
+            <div className='nutrition-container'>
+                <h3>Nutrition</h3>
+                <div className='nutrition-content'>
+                    <div className='nutrition-items'>
+                        <h5>Protein</h5>
+                        <p>{nutrition.caloricBreakdown.percentProtein}%</p>
+                    </div>
+                    <div className='nutrition-items'>
+                        <h5>Fat</h5>
+                        <p>{nutrition.caloricBreakdown.percentFat}%</p>
+                    </div>
+                    <div className='nutrition-items'>
+                        <h5>Carbs</h5>
+                        <p>{nutrition.caloricBreakdown.percentCarbs}%</p>
+                    </div>
+                </div>
+            </div>
 
-            <h2>Diets</h2>
-            {data.diets && data.diets.length > 0 ? (
-                data.diets.map((diet, index) => <p key={index}>{diet}</p>)
-            ) : (
-                <p>No diets available</p>
-            )}
+            <div className='nutrients-container'>
+                <h3>Nutrients</h3>
 
-            <h2>Ready in ...</h2>
-            <p>{readyInMinutes}min</p>
+                <table className='nutrients-table'>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {nutrition.nutrients.map((nutrient, index) => {
+                            const { name, amount, unit } = nutrient;
+                            return (
+                                <tr key={index}>
+                                    <td>{name}</td>
+                                    <td>{amount}</td>
+                                    <td>{unit}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
 
-            <h3>Servings</h3>
-            <p>{servings}</p>
-
-            <h3>Nutrition</h3>
-            <p>
-                Protein:{' '}
-                <span>{nutrition.caloricBreakdown.percentProtein}%</span>
-            </p>
-            <p>
-                Fat: <span>{nutrition.caloricBreakdown.percentFat}%</span>
-            </p>
-            <p>
-                Carbs: <span>{nutrition.caloricBreakdown.percentCarbs}%</span>
-            </p>
-
-            <h3>Nutrients</h3>
-
-            {nutrition.nutrients.map((nutrient, index) => {
-                const { name, amount, unit } = nutrient;
-                return (
-                    <p key={index}>
-                        {name}: {amount}
-                        {unit}
-                    </p>
-                );
-            })}
-
-            <Link to={'/'}>Back to home</Link>
+            <div className='btn-container'>
+                <button className='btn'>
+                    <Link to={'/'}>Back to home</Link>
+                </button>
+            </div>
         </RecipeWrapper>
     );
 };
