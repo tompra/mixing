@@ -9,7 +9,6 @@ html {
 }
 
 :root {
-    /* colors */
     --primary-50: #f0f5ff;
     --primary-100: #e5edff;
     --primary-200: #cddbfe;
@@ -31,7 +30,6 @@ html {
 
     --small-text: 0.875rem;
     --extra-small-text: 0.7em;
-    /* rest of the vars */
     --backgroundColor: var(--primary-100);
     --textColor: var(--primary-100);
     --borderRadius: 0.25rem;
@@ -40,7 +38,6 @@ html {
     --max-width: 1120px;
     --fixed-width: 600px;
     --view-width: 90vw;
-    /* box shadow*/
     --shadow-1: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --shadow-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -68,23 +65,23 @@ h5 {
 }
 
 h1 {
-    font-size: clamp(2rem, 5vw, 5rem); /* Large heading */
+    font-size: clamp(2rem, 5vw, 5rem);
 }
 
 h2 {
-    font-size: clamp(1.5rem, 3vw, 3rem); /* Medium heading */
+    font-size: clamp(1.5rem, 3vw, 3rem);
 }
 
 h3 {
-    font-size: clamp(1.25rem, 2.5vw, 2.5rem); /* Small heading */
+    font-size: clamp(1.25rem, 2.5vw, 2.5rem);
 }
 
 h4 {
-    font-size: clamp(1rem, 2vw, 2rem); /* Extra small heading */
+    font-size: clamp(1rem, 2vw, 2rem);
 }
 
 h5 {
-    font-size: clamp(0.875rem, 1.5vw, 1.5rem); /* Tiny heading */
+    font-size: clamp(0.875rem, 1.5vw, 1.5rem);
 }
 
 .text {
@@ -110,8 +107,6 @@ ul {
     display: block;
     object-fit: cover;
 }
-
-/* buttons */
 
 .btn {
     cursor: pointer;
