@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const NavbarWrapper = styled.nav`
     background-color: var(--primary-600);
+    position: fixed;
+    width: 100%;
     .nav-center {
         width: 90%;
         max-width: 100%;
@@ -19,8 +21,9 @@ export const NavbarWrapper = styled.nav`
     }
     .logo-right {
         background-color: var(--active);
-        border-radius: 10px;
+        border-radius: 5px;
         margin-left: 5px;
+        padding: 0 10px;
     }
     .nav-links {
         display: flex;
