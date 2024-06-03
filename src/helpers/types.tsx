@@ -111,4 +111,5 @@ export type RecipeData = {
     };
     diets: string[];
     analyzedInstructions: { steps: InstructionStep[] }[];
+    preparationMinutes: number;
 };
