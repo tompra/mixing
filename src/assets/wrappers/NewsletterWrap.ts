@@ -37,7 +37,7 @@ export const NewsLetterWrapper = styled.div`
     }
     ::placeholder {
         font-family: inherit;
-        color: var(--grey-400);
+        color: var(--primary-100);
     }
     .form-alert {
         color: var(--red-dark);

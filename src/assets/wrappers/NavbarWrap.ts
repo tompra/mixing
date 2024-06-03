@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 export const NavbarWrapper = styled.nav`
     background-color: var(--primary-600);
-    position: fixed;
-    width: 100%;
     .nav-center {
         width: 90%;
         max-width: 100%;
